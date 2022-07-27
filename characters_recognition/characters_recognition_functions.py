@@ -164,10 +164,4 @@ def check_names(names_set):
             characters_set.add(s_name.strip())
             
     return characters_set
-
-
-
-
-#PROBLEMI:
-#cercare di escludere i soli cognomi
-#prima di escludere i cognomi, ricondurre ad essi le parole che indicano la famiglia: es. Mario Bartaldo; the Bartaldos
+    
