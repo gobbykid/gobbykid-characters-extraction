@@ -151,7 +151,7 @@ def check_names(names_set):
     characters_set = set()
     #"England" etc. "Englishman" "Englishwoman"
     not_names_regex = [".+\schristmas", ".+\sisland", ".+\slake", "lake\s.+", ".+\spark", ".+\schurch", ".+\sstation", ".+\sstreet", ".+\sriver", "river\s.+", ".+\socean", "mount.+", "part\s.+", "chapter\s.+", ".+\sbridge", ".+\slane", ".+\shill", ".+\srepublic", ".+\sroad", ".+\scab", ".+\sschool", ".+\sday", "injuns?"]
-    not_names_words = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "sir", "lord", "lady", "baby", "king", "maecenas", "queen", "prince", "princess", "dame", "miss", "mister", "mr", "mrs", "captain", "cap", "i", "me", "you", "aunt", "mother", "mamma", "father", "uncle", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "god", "oh", "editor", "project gutenberg"]
+    not_names_words = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "maecenas", "baby", "sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "lady", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "mamma", "captain", "cap", "i", "me", "you", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "god", "oh", "editor", "project gutenberg"]
 
     for name in names_set:
         s_name = name.strip()
@@ -164,7 +164,7 @@ def check_names(names_set):
                 person_name = False
                 break
         if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words):
-            characters_set.add(s_name.strip().title())
+            characters_set.add(s_name.strip())
             
     return characters_set
 
