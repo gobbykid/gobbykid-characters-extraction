@@ -30,6 +30,11 @@ def filter_surnames(names_set):
 
 
 
+def gender_computer_recognition(names_set):
+    single_names, multiple_names = filter_surnames(names_set)
+    return True
+
+
 def gender_recognition(names_set):
     single_names, multiple_names = filter_surnames(names_set)
     male_words = {"sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother"}
@@ -89,6 +94,10 @@ def gender_recognition(names_set):
 
 
 
+from genderComputer import genderComputer
+gc = genderComputer()
+
+print(genderComputer().resolveGender('Alexei Matrosov', None))
 
 
 
