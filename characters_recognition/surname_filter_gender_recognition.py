@@ -60,18 +60,27 @@ def gender_recognition(names_set):
                 if already_added:
                     continue
                 else:
-                    name_gender = Genderize().get(name)
-                    if name_gender[0]["gender"] == "male":
+                    if name in male_characters:
                         male_characters.append(" ".join(full_name))
                         already_added = True
-                    elif name_gender[0]["gender"] == "female":
+                    elif name in female_characters:
                         female_characters.append(" ".join(full_name))
                         already_added = True
+                    elif name in unknown_gender:
+                        continue
                     else:
-                        if full_name.index(name) == len(full_name) -1:
-                            unknown_gender.append(" ".join(full_name))
+                        name_gender = Genderize().get(name)
+                        if name_gender[0]["gender"] == "male":
+                            male_characters.append(" ".join(full_name))
+                            already_added = True
+                        elif name_gender[0]["gender"] == "female":
+                            female_characters.append(" ".join(full_name))
+                            already_added = True
                         else:
-                            continue
+                            if full_name.index(name) == len(full_name) -1:
+                                unknown_gender.append(" ".join(full_name))
+                            else:
+                                continue
 
     return male_characters, female_characters, unknown_gender
 
