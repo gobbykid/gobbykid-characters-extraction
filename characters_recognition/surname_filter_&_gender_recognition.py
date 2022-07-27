@@ -1,11 +1,12 @@
 from genderize import Genderize
 import re
 
-from numpy import single
+from numpy import full, single
 
-names = {'Injuns', 'Edward', 'Wilson', 'Hastings', 'Stroud', 'Sintram', 'Castilian Amoroso', 'Annie Ridgway', 'Albert Morrison', 'Gabrielle', 'Naval Heroes', 'Redfern', 'Janey', 'Steal', 'Oswald', 'Bastables', 'Miss Dora', 'Young Lady Missing', 'Hildegarde Cunigonde', 'Father Time', 'Horace Octavius', 'Malabar', 'Katinka', 'Dick Turpin', 'Jane', 'Bagheera', 'Mrs Leslie', 'Jim Carlton', 'Bastable', 'Albert', 'Noel', 'Sam Redfern', 'Carlton', 'Noel Bastable', 'Ali Baba', 'Rosenbaum', 'Ellis', 'Lookee', 'Fame', 'Dora', 'Indian Uncle', 'Annie', 'Aunt Emily', 'Count Folko', 'Mary', 'Lewisham', 'Gaboriau', 'Quentin Durward', 'Babel', 'Alice The Princess', 'Pincher', 'Bon', 'Alicia', 'Amoroso', 'Etait', 'Oswald Bastable', 'Dicky', 'Guy Fawkes', 'Pauline', 'Eliza', 'Denny', 'Lord Tottenham', 'Blackheath', 'Hildegarde', 'Nelson', 'Alice', 'Noeloninuris', 'Flings', 'Victoria', 'Daisy', 'Trafalgar', 'Kipling', 'Dickens', 'Balliol', 'Take Noel', 'Dick', 'Gordon', 'Holloway', 'Hardy', 'Claude Duval', 'Little Alice', 'Osrawalddo', 'Bravo', 'Foulkes', 'Dick Diddlington'}
+names = {'babel', 'osrawalddo', 'rosenbaum', 'naval heroes', 'bon', 'ali baba', 'hastings', 'lord tottenham', 'gaboriau', 'trafalgar', 'pincher', 'etait', 'bravo', 'claude duval', 'foulkes', 'stroud', 'aunt emily', 'alice the princess', 'bagheera', 'annie', 'oswald', 'holloway', 'father time', 'noel', 'nelson', 'victoria', 'quentin durward', 'steal', 'hildegarde', 'katinka', 'miss dora', 'mrs leslie', 'hildegarde cunigonde', 'janey', 'lookee', 'bastable', 'alice', 'take noel', 'edward', 'lewisham', 'daisy', 'gabrielle', 'count folko', 'flings', 'balliol', 'pauline', 'dora', 'alicia', 'guy fawkes', 'ellis', 'annie ridgway', 'mary', 'dick diddlington', 'castilian amoroso', 'malabar', 'jane', 'little alice', 'albert', 'fame', 'gordon', 'denny', 'eliza', 'bastables', 'amoroso', 'albert morrison', 'dicky', 'sam redfern', 'jim carlton', 'carlton', 'wilson', 'redfern', 'blackheath', 'noel bastable', 'noeloninuris', 'hardy', 'oswald bastable', 'dickens', 'young lady missing', 'dick turpin', 'indian uncle', 'dick', 'horace octavius', 'kipling', 'sintram'}
 
 my_names = {"Giovanni", "Gianni", "Gianni Lontri", "Joe", "Mr Joe", "Maria Mucci", "Marta Brodagli", "Mucci", "Giorgio Mucci", "Alberto Grandini", "Mario Grandini", "Grandinis", "Gian Lorenzo Brodagli"}
+
 
 
 
@@ -36,6 +37,8 @@ def filter_surnames(names_set):
 
 
 def gender_recognition(single_names, multiple_names):
+    male_words = {"sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother"}
+    female_words = {"lady", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter"}
     male_characters = []
     female_characters = []
     unknown_gender = []
@@ -50,23 +53,44 @@ def gender_recognition(single_names, multiple_names):
         else:
             unknown_gender.append(char["name"])
 
-###########PRIMA DI QUESTO C'è DA FILTRARE TUTTI I NOMI CON "MR", "MISS", "PRINCE", "PRINCESS" ETC. E ASSEGNARGLI UN GENERE
 
 ##################################
     for full_name in multiple_names:
-        gender = {"m": 0, "f": 0, "u": 0}
-        for name in full_name:
-            name_gender = Genderize().get(name)
-            if name_gender["gender"] == "male":
-                gender["m"] += 1
-            elif name_gender["gender"] == "female":
-                gender["f"] += 1
-###################################
+        if len(set(full_name) & male_words) > 0:
+            male_characters.append(" ".join(full_name))
+        elif len(set(full_name) & female_words) > 0:
+            female_characters.append(" ".join(full_name))
+        else:
+            already_added = False
+            for name in full_name:
+                if already_added:
+                    continue
+                name_gender = Genderize().get(name)
+                if name_gender["gender"] == "male":
+                    male_characters.append(" ".join(full_name))
+                    already_added = True
+                elif name_gender["gender"] == "female":
+                    female_characters.append(" ".join(full_name))
+                    already_added = True
+                else:
+                    if full_name.index(name) == len(full_name) -1:
+                        unknown_gender.append(" ".join(full_name))
+                    else:
+                        continue # SE ALL'ULTIMA ITERAZIONE è TUTTO UNKNOWN CHE SUCCEDE???????
+##################################
 
     return unknown_gender
 
 
 
 
-print(filter_surnames(names))
+#print(filter_surnames(names))
+
+
+print(Genderize().get(["mary"]))
+
+
+
+
+
 
