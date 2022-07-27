@@ -3,7 +3,7 @@ import os
 #import gender_guesser.detector as ggd
 #import gender_detector as g_d
 
-directory_paths = ["Corpus/female-writers/", "Corpus/male-writers/"]
+directory_paths = ["characters_recognition/Corpus/female-writers/", "characters_recognition/Corpus/male-writers/"]
 file_paths = []
 
 for path in directory_paths:
@@ -17,7 +17,7 @@ for path in directory_paths:
 
 #run the code in this way:
 
-#ncl = get_characters(open(file_paths[5]).read())
+ncl = get_characters(open(file_paths[5]).read())
 
 #or in this way:
 
