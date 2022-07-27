@@ -1,7 +1,6 @@
 from genderize import Genderize
-import re
 
-import genderize
+import re
 
 
 def filter_surnames(names_set):
@@ -25,14 +24,14 @@ def filter_surnames(names_set):
                     remove = True
         if remove:
             single_names.remove(name)
-          
+
+        
     return single_names, multiple_names
 
 
 
-def gender_computer_recognition(names_set):
-    single_names, multiple_names = filter_surnames(names_set)
-    return True
+
+
 
 
 def gender_recognition(names_set):
@@ -42,8 +41,8 @@ def gender_recognition(names_set):
     male_characters = []
     female_characters = []
     unknown_gender = []
-    sn_char_gender = Genderize().get(single_names)
 
+    sn_char_gender = Genderize().get(single_names)
 
     for char in sn_char_gender:
         if char["gender"] == "male":
@@ -52,7 +51,6 @@ def gender_recognition(names_set):
             female_characters.append(char["name"])
         else:
             unknown_gender.append(char["name"])
-
 
     for full_name in multiple_names:
         if len(set(full_name) & male_words) > 0:
@@ -94,10 +92,6 @@ def gender_recognition(names_set):
 
 
 
-from genderComputer import genderComputer
-gc = genderComputer()
-
-print(genderComputer().resolveGender('Alexei Matrosov', None))
 
 
 
