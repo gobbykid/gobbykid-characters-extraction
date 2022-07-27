@@ -13,11 +13,11 @@ clean_tokenizer = nltk.RegexpTokenizer(pattern = "[a-zA-Z'’]+")
 
 
 #Useful lists in order to check the nature of the names
-with open('not-characters/nationalities.csv') as f:
+with open('characters_recognition/not_characters_names/nationalities.csv') as f:
     reader = csv.reader(f)
     nationalities = [row[0].lower() for row in reader]
 
-with open('not-characters/countries.csv') as f:
+with open('characters_recognition/not_characters_names/countries.csv') as f:
     reader = csv.reader(f)
     countries = [row[0].lower() for row in reader]
 
