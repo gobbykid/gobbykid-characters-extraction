@@ -150,7 +150,7 @@ def check_names(names_set):
     regex_dict = {".+’":("’", ""), ".+!":("!", ""), "[Tt]he\s.+":("[Tt]he\s", ""), "[oO]\s.+": ("[Oo]\s", ""), ".+['’]s": ("['’]s", ""), ".+\s['’]s": ("\s['’]s", ""), "[Pp]rince\s.+": ("[Pp]rince\s", ""), "[Pp]rincess\s.+": ("[Pp]rincess\s", ""), "[Kk]ing\s.+": ("[Kk]ing\s", ""), "[Qq]ueen\s.+": ("[Qq]ueen\s", ""), "[Dd]ame\s.+": ("[Dd]ame\s", ""), "[Ll]ady\s.+": ("[Ll]ady\s", ""), ".+['’,.]": ("['’,.]", "")}
     characters_set = set()
     #"England" etc. "Englishman" "Englishwoman"
-    not_names_regex = [".+\schristmas", ".+\sisland", ".+\slake", "lake\s.+", ".+\spark", ".+\schurch", ".+\sstation", ".+\sstreet", ".+\sriver", "river\s.+", ".+\socean", "mount.+", "part\s.+", "chapter\s.+", ".+\sbridge", ".+\slane", ".+\shill", ".+\srepublic", ".+\sroad", ".+\scab", ".+\sschool", ".+\sday"]
+    not_names_regex = [".+\schristmas", ".+\sisland", ".+\slake", "lake\s.+", ".+\spark", ".+\schurch", ".+\sstation", ".+\sstreet", ".+\sriver", "river\s.+", ".+\socean", "mount.+", "part\s.+", "chapter\s.+", ".+\sbridge", ".+\slane", ".+\shill", ".+\srepublic", ".+\sroad", ".+\scab", ".+\sschool", ".+\sday", "injuns?"]
     not_names_words = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "sir", "lord", "lady", "baby", "king", "maecenas", "queen", "prince", "princess", "dame", "miss", "mister", "mr", "mrs", "captain", "cap", "i", "me", "you", "aunt", "mother", "mamma", "father", "uncle", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "god", "oh", "editor", "project gutenberg"]
 
     for name in names_set:
