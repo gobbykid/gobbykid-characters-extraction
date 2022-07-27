@@ -48,15 +48,17 @@ def gender_recognition(names_set):
             male_characters.append(name)
         elif gender == "female":
             female_characters.append(name)
-        else:                                      #If genderComputer is not able to guess the gender, Genderize is used
-            char_info = Genderize().get(name)
-            if char_info[0]["gender"] == "male":
-                male_characters.append(char_info[0]["name"])
-            elif char_info[0]["gender"] == "female":
-                female_characters.append(char_info[0]["name"])
-            else:
-                unknown_gender.append(char_info["name"])
-
+        else:
+            try:                                      #If genderComputer is not able to guess the gender, Genderize is used
+                char_info = Genderize().get(name)
+                if char_info[0]["gender"] == "male":
+                    male_characters.append(char_info[0]["name"])
+                elif char_info[0]["gender"] == "female":
+                    female_characters.append(char_info[0]["name"])
+                else:
+                    unknown_gender.append(char_info["name"])
+            except:
+                unknown_gender.append(name)
 
     
     for full_name in multiple_names:                        #The first block of checks aims at guessing the gender on the basis of genderdized words present in the strings without using any additional library
@@ -70,33 +72,36 @@ def gender_recognition(names_set):
                 male_characters.append(name)
             elif gender == "female":
                 female_characters.append(name)
-            else:                                       #The following block of check is necessary since Genderize does not work with multiple-words names
-                already_added = False
-                for name in full_name:
-                    if already_added:
-                        continue
-                    else:
-                        if name in male_characters:
-                            male_characters.append(" ".join(full_name))
-                            already_added = True
-                        elif name in female_characters:
-                            female_characters.append(" ".join(full_name))
-                            already_added = True
-                        elif name in unknown_gender:
+            else:
+                try:                                     #The following block of check is necessary since Genderize does not work with multiple-words names
+                    already_added = False
+                    for name in full_name:
+                        if already_added:
                             continue
                         else:
-                            name_gender = Genderize().get(name)
-                            if name_gender[0]["gender"] == "male":
+                            if name in male_characters:
                                 male_characters.append(" ".join(full_name))
                                 already_added = True
-                            elif name_gender[0]["gender"] == "female":
+                            elif name in female_characters:
                                 female_characters.append(" ".join(full_name))
                                 already_added = True
+                            elif name in unknown_gender:
+                                continue
                             else:
-                                if full_name.index(name) == len(full_name) -1:
-                                    unknown_gender.append(" ".join(full_name))
+                                name_gender = Genderize().get(name)
+                                if name_gender[0]["gender"] == "male":
+                                    male_characters.append(" ".join(full_name))
+                                    already_added = True
+                                elif name_gender[0]["gender"] == "female":
+                                    female_characters.append(" ".join(full_name))
+                                    already_added = True
                                 else:
-                                    continue
+                                    if full_name.index(name) == len(full_name) -1:
+                                        unknown_gender.append(" ".join(full_name))
+                                    else:
+                                        continue
+                except:
+                    unknown_gender.append(" ".join(full_name))
 
     return male_characters, female_characters, unknown_gender
 
