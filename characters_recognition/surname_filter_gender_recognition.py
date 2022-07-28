@@ -73,22 +73,26 @@ def gender_recognition(names_set):
                 male_characters.append(joint_name)
             elif gender == "female":
                 female_characters.append(joint_name)
-            else:
-                try:                                     #The following block of check is necessary since Genderize does not work with multiple-words names
-                    already_added = False
-                    for single_name in full_name:
-                        if already_added:
+            else:                                       #In the following block the detection is based on each word composing the names
+                already_added = False
+                for single_name in full_name:
+                    if already_added:
+                        continue
+                    else:
+                        if single_name in male_characters:
+                            male_characters.append(joint_name)
+                            already_added = True
+                        elif single_name in female_characters:
+                            female_characters.append(joint_name)
+                            already_added = True
+                        elif single_name in unknown_gender:
                             continue
                         else:
-                            if single_name in male_characters:
-                                male_characters.append(joint_name)
-                                already_added = True
-                            elif single_name in female_characters:
-                                female_characters.append(joint_name)
-                                already_added = True
-                            elif single_name in unknown_gender:
-                                continue
-                            else:
+
+
+
+                            
+                            try:                                                #This try except methos is necessary since Genderize has a daily request limit
                                 name_gender = Genderize().get([single_name])
                                 if name_gender[0]["gender"] == "male":
                                     male_characters.append(joint_name)
@@ -101,8 +105,21 @@ def gender_recognition(names_set):
                                         unknown_gender.append(joint_name)
                                     else:
                                         continue
-                except:
-                    unknown_gender.append(joint_name)
+
+                            except:
+                                name_gender = gc.resolveGender(single_name, None)
+                                if name_gender == "male":
+                                    male_characters.append(joint_name)
+                                    already_added = True
+                                elif name_gender == "female":
+                                    female_characters.append(joint_name)
+                                    already_added = True
+                                else:
+                                    if full_name.index(single_name) == len(full_name) -1:
+                                        unknown_gender.append(joint_name)
+                                    else:
+                                        continue
+
 
     return male_characters, female_characters, unknown_gender
 
