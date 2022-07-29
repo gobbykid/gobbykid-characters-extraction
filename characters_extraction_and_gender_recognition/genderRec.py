@@ -116,5 +116,3 @@ def gender_recognition(names_set):
     return male_characters, female_characters, unknown_gender
 
 
-
-
