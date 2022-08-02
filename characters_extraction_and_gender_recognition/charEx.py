@@ -2,7 +2,10 @@ import re, csv, spacy, nltk as nltk, syntok.segmenter as segmenter
 
 
 
-nlp = spacy.load("en_core_web_md")
+nlp = spacy.load("en_core_web_md", disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
+#since the aim here is to find entities, the other processes incuded in the default pipeline are disabled in order to execute a much faster performance
+
+
 nlp.max_length = 2000000
 
 #If not already downloaded, it may be necessary to execute the download of the following:
@@ -55,7 +58,7 @@ def get_charaters_nltk(book):
     nltk_name_set = set()
     tokenized_sentences = nltk.sent_tokenize(book)
     for sent in tokenized_sentences:
-        chunked = nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent)))
+        chunked = nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))) #the ne_chunk default value for "binary" attribute is "False", so it returns named entities with their own Class (PERSON, ORGANIZATION, etc.)
         for item in chunked:
             if type(item) == nltk.Tree and item.label() == "PERSON":
                 nltk_name_set.add(" ".join([token for token, pos in item.leaves()]).lower()) 
