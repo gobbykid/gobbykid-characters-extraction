@@ -16,17 +16,20 @@ for path in directory_paths:
 
 
 #run the code in this way:
-
-ncl = gender_recognition(get_characters(open(file_paths[5]).read()))
+"""
+ncl = gender_recognition(get_characters(open(file_paths[0]).read()))
 print(ncl)
 #or in this way:
-
 """
+
 characters = dict()
+
 idx = 1
 for file_path in file_paths:
     characters["book-"+str(idx)] = get_characters(open(file_path).read())
     idx += 1
-"""
+
+
+print(characters)
 
 
