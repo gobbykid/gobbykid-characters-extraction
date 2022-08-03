@@ -26,7 +26,7 @@ characters = dict()
 
 idx = 1
 for file_path in file_paths:
-    characters["book-"+str(idx)] = get_characters(open(file_path).read())
+    characters["book-"+file_path] = gender_recognition(get_characters(open(file_path).read()))
     idx += 1
 
 
