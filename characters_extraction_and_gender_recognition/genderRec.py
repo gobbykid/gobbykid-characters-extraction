@@ -31,7 +31,6 @@ def filter_surnames(names_set):
 
 
 
-
 def gender_recognition(names_set):
     gc = GenderComputer()
     single_word_names, multiple_words_names = filter_surnames(names_set)
