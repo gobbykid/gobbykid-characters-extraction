@@ -27,6 +27,13 @@ with open('assets/non_characters_csv/countries.csv') as f:
     reader = csv.reader(f)
     countries = [row[0].lower() for row in reader]
 
+with open('assets/non_characters_csv/UK_counties.csv') as f:
+    reader = csv.reader(f)
+    uk_counties = [row[0].lower() for row in reader]
+
+with open('assets/non_characters_csv/nationalities.csv') as f:
+    reader = csv.reader(f)
+    uk_cities = [row[0].lower() for row in reader]
 
 
 
@@ -166,7 +173,7 @@ def check_names(names_set):
             if re.match(nnr, s_name):
                 person_name = False
                 break
-        if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words):
+        if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words and s_name not in uk_cities and s_name not in uk_counties):
             characters_set.add(s_name.strip())
             
     return characters_set
