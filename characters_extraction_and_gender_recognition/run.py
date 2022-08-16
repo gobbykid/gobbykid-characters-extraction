@@ -1,6 +1,7 @@
 from charEx import *
 from genderRec import *
 import os
+from tqdm import tqdm #for progress bar
 
 
 directory_paths = ["assets/Corpus/female-writers/", "assets/Corpus/male-writers/"]
@@ -25,11 +26,12 @@ print(ncl)
 characters = dict()
 
 idx = 1
-for file_path in file_paths:
-    characters["book-"+file_path] = gender_recognition(get_characters(open(file_path).read()))
+for file_path in tqdm(file_paths): #tqdm just displays a progress bar in the terminal
+    characters["book-"+file_path] = gender_recognition(get_characters(open(file_path, encoding="utf8").read()))
     idx += 1
 
 
-print(characters)
+#print(characters)
 
-
+for key in characters:
+    print(key, '-->', characters[key])
