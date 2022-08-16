@@ -51,7 +51,6 @@ def get_characters(book):
     spacy_characters_set = get_characters_spacy(book)
 
     proper_nouns_dict = get_proper_nouns(book)
-    #It is possible to set a thrashold to take in consideration only the words that appear more than n-times by adding this before the last "]" in the following line: and proper_nouns_dict[word]["upper"]>1
     proper_nouns_set = set([word for word in proper_nouns_dict if proper_nouns_dict[word].get('upper', 0) / (proper_nouns_dict[word].get('upper', 0) + proper_nouns_dict[word].get('lower', 0)) == 1]) 
     proper_nouns_set = check_names(proper_nouns_set)
     #The returned result is the intersection between the set obtained from our simple extraction (acting as a filter) and the union between the one coming from the extraction with NLTK and the Spacy's one
