@@ -35,8 +35,16 @@ with open('assets/non_characters_csv/UK_cities.csv') as f:
     reader = csv.reader(f)
     uk_cities = [row[0].lower() for row in reader]
 
+with open('assets/non_characters_csv/religious_words.csv') as f:
+    reader = csv.reader(f)
+    religious_words = [row[0].lower() for row in reader]
 
-print(uk_cities)
+with open('assets/non_characters_csv/common_geographical_names.csv') as f:
+    reader = csv.reader(f)
+    geo_names = [row[0].lower() for row in reader]
+
+
+
 
 def get_characters(book):
     book = re.sub('\n', ' ', book)
@@ -160,7 +168,7 @@ def check_names(names_set):
     characters_set = set()
     substitutions_dict = {".+’":("’", ""), ".+!":("!", ""), "[Tt]he\s.+":("[Tt]he\s", ""), "[oO]\s.+": ("[Oo]\s", ""), ".+['’]s": ("['’]s", ""), ".+\s['’]s": ("\s['’]s", ""), ".+['’,.]": ("['’,.]", ""), "[Dd]oes\s.+": ("[Dd]oes\s", "")}
     not_names_regex = ["(.+)?christmas(.+)?", "mechlin(\s\w+)?", ".+\sisland", ".+\slake", "lake\s.+", ".+\spark", ".+\schurch", ".+\sstation", ".+\sstreet", ".+\sriver", "river\s.+", ".+\socean", "mount.+", "part\s.+", "chapter\s.+", ".+\sbridge", ".+\slane", ".+\shill", ".+\srepublic", ".+\sroad", ".+\scastle", "(.+\s)?court(\s.+)?", ".+\sfarm", ".+\slodge", ".+\scab", ".+\sschool", ".+\sday", "injuns?", ".+\stowers?", "first\s.+", "second\s.+", "third\s.+", "fourth\s.+", "fifth\s.+", "sixth\s.+", "seventh\s.+", "(\.+\s)?majesty", ".+\sprince(ss)?"]
-    not_names_words = ["michaelmas", "calvary", "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "maecenas", "baby", "sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "lady", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "mamma", "captain", "cap", "i", "me", "you", "yrs", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "god", "oh", "editor", "project gutenberg", "where", "who", "why", "what", "fruit", "vegetables", "none", "hello", "perfessor", "professor", "teacher", "dearest", "dear"]
+    not_names_words = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "maecenas", "baby", "sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "lady", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "mamma", "captain", "cap", "i", "me", "you", "yrs", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "god", "oh", "editor", "project gutenberg", "where", "who", "why", "what", "fruit", "vegetables", "none", "hello", "perfessor", "professor", "teacher", "dearest", "dear"]
 
     for name in names_set:
         s_name = name.strip()
@@ -172,7 +180,7 @@ def check_names(names_set):
             if re.match(nnr, s_name):
                 person_name = False
                 break
-        if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words and s_name not in uk_cities and s_name not in uk_counties):
+        if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words and s_name not in uk_cities and s_name not in uk_counties and s_name not in geo_names and s_name not in religious_words):
             characters_set.add(s_name.strip())
             
     return characters_set
