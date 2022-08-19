@@ -7,13 +7,13 @@ def filter_surnames(names_set):
     single_word_names = []
     multiple_words_names = []
     for name in names_set:
-        if re.match("\w+(\s\w+)+", name):
+        if re.match("\w+(\s\w+)+", name): 
             multiple_words_names.append((name.split(" ")))
         else:
             single_word_names.append(name)
     
     for name in single_word_names:   
-        remove = False
+        remove = False 
         for mwn in multiple_words_names:
             if name[-1] == "s":             #Here the family names are removed: e.g. If we find "John Doe", "Lisa Doe", "Does" and "Doe", we remove "Does" and "Doe"
                 if mwn[-1] == name[:-1]:
@@ -33,7 +33,7 @@ def filter_surnames(names_set):
 
 def gender_recognition(names_set):
     gc = GenderComputer()
-    single_word_names, multiple_words_names = filter_surnames(names_set)
+    single_word_names, multiple_words_names = filter_surnames(names_set) #This function aims at removing the names that are composed by a single word but are present in the list of names composed by multiple words
     male_words = {"sir", "duke", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "boy", "widower"}
     female_words = {"lady", "duchess", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "girl", "widow"}
     male_characters = []
@@ -41,14 +41,14 @@ def gender_recognition(names_set):
     unknown_gender = []
 
     for name in single_word_names:                   #First check by means of genderComputer on the list of names composed by a single word
-        gender = gc.resolveGender(name, None)
-        if gender == "male":
+        gender = gc.resolveGender(name, None)       #If the name is not found, it returns None
+        if gender == "male": 
             male_characters.append(name)
         elif gender == "female":
             female_characters.append(name)
         else:
             try:                                      #If genderComputer is not able to guess the gender, Genderize is used
-                char_info = Genderize().get([name])
+                char_info = Genderize().get([name])   #Genderize returns a list of dictionaries, so we need to access the first element of the list
                 if char_info[0]["gender"] == "male":
                     male_characters.append(name)
                 elif char_info[0]["gender"] == "female":
@@ -66,13 +66,13 @@ def gender_recognition(names_set):
         elif len(set(full_name) & female_words) > 0:
             female_characters.append(joined_name)
         else:                                                       #Now, it is used the same process as before: first we check the gender by meand of genderComputer
-            gender = gc.resolveGender(joined_name, None)
+            gender = gc.resolveGender(joined_name, None)           #If the name is not found, it returns None
             if gender == "male":
                 male_characters.append(joined_name)
             elif gender == "female":
                 female_characters.append(joined_name)
             else:                                       #In the following block the detection is based on each word composing the names
-                already_added = False
+                already_added = False                  
                 for single_name in full_name:
                     if already_added:
                         break
@@ -86,7 +86,7 @@ def gender_recognition(names_set):
                         elif single_name in unknown_gender:
                             continue
                         else:
-                            name_gender = gc.resolveGender(single_name, None)
+                            name_gender = gc.resolveGender(single_name, None) 
                             if name_gender == "male":
                                 male_characters.append(joined_name)
                                 already_added = True
