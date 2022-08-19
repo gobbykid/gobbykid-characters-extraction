@@ -34,8 +34,8 @@ def filter_surnames(names_set):
 def gender_recognition(names_set):
     gc = GenderComputer()
     single_word_names, multiple_words_names = filter_surnames(names_set)
-    male_words = {"sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother"}
-    female_words = {"lady", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter"}
+    male_words = {"sir", "duke", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "boy", "widower"}
+    female_words = {"lady", "duchess", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "girl", "widow"}
     male_characters = []
     female_characters = []
     unknown_gender = []
