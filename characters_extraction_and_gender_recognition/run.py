@@ -19,8 +19,8 @@ for path in directory_paths:
 #run the code in this way:
 #for idx, filepath in enumerate(file_paths):
 #    print(idx, filepath)
-
-ncl = gender_recognition(get_characters(open(file_paths[14]).read()))
+print(str(file_paths[10]))
+ncl = gender_recognition(get_characters(open(file_paths[10]).read()))
 print(ncl)
 
 
