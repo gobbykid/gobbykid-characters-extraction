@@ -98,7 +98,6 @@ def get_proper_nouns(book):
     for sentence in list_of_sentences:
         next_words = []  #list of words that follow a capitalized word
         tokenized_sent = clean_tokenizer.tokenize(sentence) #we use the regex-based tokenizer in order to avoid the splitting of words like "Mr." or "Mrs." into "Mr" and "." (which would be the case if we used nltk's word_tokenize)
-        print(tokenized_sent)
         for word in tokenized_sent: 
             if len(word) > 1:
                 if word[-1] == "’":
