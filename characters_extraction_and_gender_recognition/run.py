@@ -20,7 +20,7 @@ for path in directory_paths:
 #for idx, filepath in enumerate(file_paths):
 #    print(idx, filepath)
 
-ncl = gender_recognition(get_characters(open(file_paths[15]).read()))
+ncl = gender_recognition(get_characters(open(file_paths[14]).read()))
 print(ncl)
 
 
