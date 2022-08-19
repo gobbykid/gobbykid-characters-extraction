@@ -43,10 +43,15 @@ with open('assets/non_characters_csv/common_geographical_names.csv') as f:
     reader = csv.reader(f)
     geo_names = [row[0].lower() for row in reader]
 
+with open('assets/non_characters_csv/exclamations.csv') as f:
+    reader = csv.reader(f)
+    exclamations = [row[0].lower() for row in reader]
+
 
 
 
 def get_characters(book):
+    book = re.sub('\w+\n', '. ', book)
     book = re.sub('\n', ' ', book)
     book = re.sub('--', ' ', book)
     book = re.sub('-', ' ', book)
@@ -59,7 +64,7 @@ def get_characters(book):
     spacy_characters_set = get_characters_spacy(book)
 
     proper_nouns_dict = get_proper_nouns(book)
-    proper_nouns_set = set([word for word in proper_nouns_dict if proper_nouns_dict[word].get('upper', 0) / (proper_nouns_dict[word].get('upper', 0) + proper_nouns_dict[word].get('lower', 0)) == 1 and proper_nouns_dict[word]["upper"]>1]) #set a threshold: consider only words occuring more than once
+    proper_nouns_set = set([word for word in proper_nouns_dict if proper_nouns_dict[word].get('upper', 0) / (proper_nouns_dict[word].get('upper', 0) + proper_nouns_dict[word].get('lower', 0)) == 1 and proper_nouns_dict[word]["upper"] > 1]) #set a threshold: consider only words occuring more than once
     proper_nouns_set = check_names(proper_nouns_set)
     #The returned result is the intersection between the set obtained from our simple extraction (acting as a filter) and the union between the one coming from the extraction with NLTK and the Spacy's one
     return (nltk_characters_set | spacy_characters_set) & proper_nouns_set
@@ -91,7 +96,6 @@ def get_proper_nouns(book):
     proper_nouns = {}
     list_of_sentences = syntok_list_of_sentences(book)
     for sentence in list_of_sentences:
-
         next_words = []   
         tokenized_sent = clean_tokenizer.tokenize(sentence)
         for word in tokenized_sent:
@@ -166,21 +170,21 @@ def syntok_list_of_sentences(book):
 
 def check_names(names_set):
     characters_set = set()
-    substitutions_dict = {".+’":("’", ""), ".+!":("!", ""), "[Tt]he\s.+":("[Tt]he\s", ""), "[oO]\s.+": ("[Oo]\s", ""), ".+['’]s": ("['’]s", ""), ".+\s['’]s": ("\s['’]s", ""), ".+['’,.]": ("['’,.]", ""), "[Dd]oes\s.+": ("[Dd]oes\s", "")}
-    not_names_regex = ["(.+)?christmas(.+)?", "mechlin(\s\w+)?", ".+\sisland", ".+\slake", "lake\s.+", ".+\spark", ".+\schurch", ".+\sstation", ".+\sstreet", ".+\sriver", "river\s.+", ".+\socean", "mount.+", "part\s.+", "chapter\s.+", ".+\sbridge", ".+\slane", ".+\shill", ".+\srepublic", ".+\sroad", ".+\scastle", "(.+\s)?court(\s.+)?", ".+\sfarm", ".+\slodge", ".+\scab", ".+\sschool", ".+\sday", "injuns?", ".+\stowers?", "first\s.+", "second\s.+", "third\s.+", "fourth\s.+", "fifth\s.+", "sixth\s.+", "seventh\s.+", "(\.+\s)?majesty", ".+\sprince(ss)?"]
-    not_names_words = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "maecenas", "baby", "sir", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "lady", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "mamma", "captain", "cap", "i", "me", "you", "yrs", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "god", "oh", "editor", "project gutenberg", "where", "who", "why", "what", "fruit", "vegetables", "none", "hello", "perfessor", "professor", "teacher", "dearest", "dear"]
+    substitutions_dict = {".+’":("’", ""), ".+!":("!", ""), "[Tt]he\s.+":("[Tt]he\s", ""), "[oO]\s.+": ("[Oo]\s", ""), ".+['’]s$": ("['’]s$", ""), ".+['’]s\s.+": ("['’]s\s", " "),".+\s['’]s": ("\s['’]s", ""), ".+['’,.]": ("['’,.]", ""), "[Dd]oes\s.+": ("[Dd]oes\s", "")}
+    not_names_regex = ["(.+)?christmas(.+)?", ".+hall","(.+)?land", "mechlin(\s\w+)?", ".+\sislet?", ".+\sisland", ".+\slake", "lake\s.+", ".+\spark", ".+\schurch", ".+\sstation", ".+\sstreet", ".+\sriver", "river\s.+", "(.+\s)?ocean", ".+\sbeach", ".+\sbay", "mount.+", "part\s.+", "chapter\s.+", ".+\sbridge", ".+\slane", ".+\shill", ".+\srepublic", ".+\sroad", ".+\scastle", "(.+\s?)?court(\s.+)?", ".+\sfarm", ".+\slodge", ".+\scab", "(.+\s)?school", ".+\sday", "injuns?", ".+\stowers?", "first\s.+", "second\s.+", "third\s.+", "fourth\s.+", "fifth\s.+", "sixth\s.+", "seventh\s.+", "(\.+\s)?majesty", ".+\sprince(ss)?", "\w+chnic", "\.+\slaw", "\.+\swords?", "\.+\speople", "st\s\w+", ".+\sgang"]
+    not_names_words = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "christmas", "maecenas", "baby", "sir", "lord", "king", "prince", "duke", "mister", "mr", "father", "uncle", "son", "brother", "lady", "queen", "princess", "duchess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "mamma", "captain", "cap", "i", "me", "you", "yrs", "destiny", "virtue", "vicar", "englishman", "englishwoman", "quis", "editor", "project gutenberg", "where", "who", "why", "what", "how", "mystery", "fruit", "vegetables", "none", "perfessor", "professor", "teacher", "dearest", "dear", "latitude", "longitude"]
 
     for name in names_set:
         s_name = name.strip()
         for regex in substitutions_dict:
             if re.match(regex, s_name):
-                s_name = re.sub(substitutions_dict[regex][0], substitutions_dict[regex][1], s_name) #This line makes use of a dictionary containing tuples usefus for the substitutions. It is not necessary since all the items in position 1 are empty strings. However it may be possible that, in order to handle specific cases, someone wants to add a non-empty string to substitute a specific occurrence
+                s_name = re.sub(substitutions_dict[regex][0], substitutions_dict[regex][1], s_name) #This line makes use of a dictionary containing tuples useful for the substitutions. It is not necessary since all the items in position 1 are empty strings. However it may be possible that, in order to handle specific cases, someone wants to add a non-empty string to substitute a specific occurrence
         person_name = True
         for nnr in not_names_regex:
             if re.match(nnr, s_name):
                 person_name = False
                 break
-        if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words and s_name not in uk_cities and s_name not in uk_counties and s_name not in geo_names and s_name not in religious_words):
+        if person_name and (s_name not in countries and s_name not in nationalities and s_name not in not_names_words and s_name not in uk_cities and s_name not in uk_counties and s_name not in geo_names and s_name not in religious_words and s_name not in exclamations):
             characters_set.add(s_name.strip())
             
     return characters_set
