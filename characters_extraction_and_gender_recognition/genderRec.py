@@ -8,21 +8,21 @@ def filter_surnames(names_set):
     multiple_words_names = []
     for name in names_set:
         if re.match("\w+(\s\w+)+", name):
-            multiple_words_names.append((name.split(" ")))
+            multiple_words_names.append((name.split(" "))) #The names are splitted in order to be able to check each word composing the name and to be able to add the name to the right list
         else:
             single_word_names.append(name)
     
-    for name in single_word_names:   
+    for s_name in single_word_names:   
         remove = False
         for mwn in multiple_words_names:
-            if name[-1] == "s":             #Here the family names are removed: e.g. If we find "John Doe", "Lisa Doe", "Does" and "Doe", we remove "Does" and "Doe"
-                if mwn[-1] == name[:-1]:
+            if s_name[-1] == "s":             #Here the family names are removed: e.g. If we find "John Doe", "Lisa Doe", "Does" and "Doe", we remove "Does" and "Doe"
+                if mwn[-1] == s_name[:-1]:   #The family names are removed by checking the last word of the name and the last word of the surname
                     remove = True
             else:
-                if mwn[-1] == name:
+                if mwn[-1] == s_name:      #If the name is not plural, we just check if the last word of the name is the same of the surname
                     remove = True
         if remove:
-            single_word_names.remove(name)
+            single_word_names.remove(s_name)
 
     return single_word_names, multiple_words_names
 
