@@ -64,7 +64,7 @@ def get_characters(book):
     spacy_characters_set = get_characters_spacy(book)
 
     proper_nouns_dict = get_proper_nouns(book)
-    proper_nouns_set = set([word for word in proper_nouns_dict if proper_nouns_dict[word].get('upper', 0) / (proper_nouns_dict[word].get('upper', 0) + proper_nouns_dict[word].get('lower', 0)) == 1 and proper_nouns_dict[word]["upper"] > 1]) #set a threshold: consider only words occuring more than once
+    proper_nouns_set = set([word for word in proper_nouns_dict if proper_nouns_dict[word].get('upper', 0) / (proper_nouns_dict[word].get('upper', 0) + proper_nouns_dict[word].get('lower', 0)) == 1 and proper_nouns_dict[word]["upper"] > 1 and proper_nouns_dict[word]["not_first"] > 0]) #set a threshold: consider only words occuring more than once and at least once not at the beginning of a sentence (in order to avoid the recognition of exclamations and other words that are not names)
     proper_nouns_set = check_names(proper_nouns_set)
     #The returned result is the intersection between the set obtained from our simple extraction (acting as a filter) and the union between the one coming from the extraction with NLTK and the Spacy's one
     return (nltk_characters_set | spacy_characters_set) & proper_nouns_set
@@ -94,11 +94,11 @@ def get_characters_spacy(book):
 #The following function's aim is to extract words that have an high probability of being a character's name or surname
 def get_proper_nouns(book):
     proper_nouns = {}
-    list_of_sentences = syntok_list_of_sentences(book)
+    list_of_sentences = syntok_list_of_sentences(book) #we use syntok's segmenter in order to avoid the splitting of words like "Mr." or "Mrs." into "Mr" and "." (which would be the case if we used nltk's sent_tokenize)
     for sentence in list_of_sentences:
-        next_words = []   
-        tokenized_sent = clean_tokenizer.tokenize(sentence)
-        for word in tokenized_sent:
+        next_words = []  #list of words that follow a capitalized word
+        tokenized_sent = clean_tokenizer.tokenize(sentence) #we use the regex-based tokenizer in order to avoid the splitting of words like "Mr." or "Mrs." into "Mr" and "." (which would be the case if we used nltk's word_tokenize)
+        for word in tokenized_sent: 
             if len(word) > 1:
                 if word[-1] == "’":
                     clean_word = word[:-1]
@@ -109,29 +109,29 @@ def get_proper_nouns(book):
             else:
                 clean_word = word
                 
-            full_name = []
-            if word in next_words or len(clean_word) <= 1:
+            full_name = [] #list of words that form a full name (e.g. ["Mr.", "John", "Smith"])
+            if word in next_words or len(clean_word) <= 1: #if the word is in the list of words that follow a capitalized word, or if it is a single letter, we skip it (we don't want to consider it as a name)
                 continue
             else:
                 if clean_word[0].isupper() and not re.match("(I’.+)|I", clean_word): #We want to avoid including I, I'm, I'll
                     case = 'upper'
-                    full_name.append(clean_word)
+                    full_name.append(clean_word) #We add the first word to the list
                     upper = True
-                    idx = tokenized_sent.index(word)
+                    idx = tokenized_sent.index(word) #We get the index of the word in the sentence
                     while upper:
-                        if idx < len(tokenized_sent)-1:
+                        if idx < len(tokenized_sent)-1: #We check if we are not at the end of the sentence
                             idx += 1
                         else:
-                            break
-                        if tokenized_sent[idx][0].isupper() and len(tokenized_sent[idx]) > 1:
-                            full_name.append(tokenized_sent[idx])
-                            next_words.append(tokenized_sent[idx])
+                            break       #We break the loop if we are at the end of the sentence
+                        if tokenized_sent[idx][0].isupper() and len(tokenized_sent[idx]) > 1: #We check if the next word is capitalized and if it is longer than 1 character
+                            full_name.append(tokenized_sent[idx]) #We add the next word to the list of words that make up the name
+                            next_words.append(tokenized_sent[idx]) #We add the next word to the list of words to avoid in the next iteration of the loop (we don't want to consider the same word twice)
                         else:
                             upper = False
                 else:
                     case = 'lower'
 
-            if full_name:
+            if full_name: 
                 name_lower = " ".join(full_name).lower()
                 case = 'upper'
             else:
@@ -139,11 +139,14 @@ def get_proper_nouns(book):
                 case = 'lower'
 
             if name_lower not in proper_nouns:
-                proper_nouns[name_lower] = {}
-                proper_nouns[name_lower]['upper'] = 0
+                proper_nouns[name_lower] = {} #We create a dictionary for the name with the corresponding case, the number of times it appears with that case, and the number of times it appears at the first position of a sentence
+                proper_nouns[name_lower]['upper'] = 0 
                 proper_nouns[name_lower]['lower'] = 0
-            proper_nouns[name_lower][case]+= 1
-
+                proper_nouns[name_lower]["not_first"] = 0
+            proper_nouns[name_lower][case]+= 1 #We update the number of times the name appears with the corresponding case
+            if re.match("\w+(\s\w+)+", name_lower) or (not re.match("\w+(\s\w+)+", name_lower) and tokenized_sent.index(word) != 0): #We check if the name is a full name (e.g. "Mr. John Smith") and not a single word (e.g. "Mr.") or a surname (e.g. "Smith") or if it is a single word and it is not at the beginning of the sentence
+                proper_nouns[name_lower]["not_first"] += 1
+ 
     return proper_nouns
 
 
