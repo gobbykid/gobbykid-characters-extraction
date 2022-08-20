@@ -20,15 +20,15 @@ for path in directory_paths:
 #for idx, filepath in enumerate(file_paths):
 #    print(idx, filepath)
 
-ncl = gender_recognition(get_characters(open(file_paths[10]).read()))
-print(ncl)
+#ncl = gender_recognition(get_characters(open(file_paths[10]).read()))
+#print(ncl)
 
 
 #or in this way:
 
 
 characters = dict()
-"""
+
 idx = 1
 for file_path in tqdm(file_paths): #tqdm just displays a progress bar in the terminal
     characters["book-"+file_path] = gender_recognition(get_characters(open(file_path, encoding="utf8").read()))
@@ -39,4 +39,4 @@ for file_path in tqdm(file_paths): #tqdm just displays a progress bar in the ter
 
 for key in characters:
     print(key, '-->', characters[key])
-"""
+
