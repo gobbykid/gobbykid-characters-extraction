@@ -5,6 +5,7 @@ import re
 
 def filter_surnames(names_set):
     single_word_names = []
+    filtered_swn = []
     multiple_words_names = []
     for name in names_set:
         if re.match("\w+(\s\w+)+", name):
@@ -21,10 +22,12 @@ def filter_surnames(names_set):
             else:
                 if mwn[-1] == s_name:      #If the name is not plural, we just check if the last word of the name is the same of the surname
                     remove = True
-        if remove:
-            single_word_names.remove(s_name)
+        if not remove:
+            filtered_swn.append(s_name)  #If the name is not a surname, it is added to the list of names composed by a single word
+        else:
+            continue
 
-    return single_word_names, multiple_words_names
+    return filtered_swn, multiple_words_names
 
 
 
