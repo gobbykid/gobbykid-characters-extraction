@@ -59,7 +59,7 @@ def get_characters(book):
     book = re.sub('- -', ' ', book)
     book = re.sub('\*', ' ', book)
     book = re.sub('\s+', ' ', book)
-    book = re.sub('\[[Ii]llustration.+\]|\[[Pp]icture.+\]', '', book)
+    book = re.sub('\[[Ii]llustration(.+)?\]|\[[Pp]icture(.+)?\]', '', book)
 
     nltk_characters_set = get_charaters_nltk(book) #we get the characters with nltk
     spacy_characters_set = get_characters_spacy(book) #we get the characters with spacy
