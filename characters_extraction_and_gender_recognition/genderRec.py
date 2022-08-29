@@ -64,10 +64,35 @@ def gender_recognition(names_set):
     
     for full_name in multiple_words_names:                        #The first block of checks aims at guessing the gender on the basis of genderdized words present in the strings without using any additional library
         joined_name = " ".join(full_name)
+
         if len(set(full_name) & male_words) > 0:                #By checking the presence of genderdized words in the name we can directly append the name in the right list
-            male_characters.append(joined_name)
+            do_not_add = False
+            for masculine_name in male_characters:
+                if re.match(".+\s.+", masculine_name):
+                    mnw_list = masculine_name.split(" ")
+                    if full_name[1:] == mnw_list[1:]:
+                        do_not_add = True
+                        break
+                else:
+                    continue
+            if do_not_add == False:
+                male_characters.append(joined_name)
+
+
         elif len(set(full_name) & female_words) > 0:
-            female_characters.append(joined_name)
+                do_not_add = False
+                for feminine_name in female_characters:
+                    if re.match(".+\s.+", feminine_name):
+                        mnw_list = feminine_name.split(" ")
+                        if full_name[1:] == mnw_list[1:]:
+                            do_not_add = True
+                            break
+                    else:
+                        continue                   
+                if do_not_add == False:
+                    female_characters.append(joined_name)
+
+
         else:                                                       #Now, it is used the same process as before: first we check the gender by meand of genderComputer
             gender = gc.resolveGender(joined_name, None)           #If the name is not found, it returns None
             if gender == "male":
