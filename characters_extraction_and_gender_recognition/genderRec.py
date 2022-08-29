@@ -37,8 +37,8 @@ def filter_surnames(names_set):
 def gender_recognition(names_set):
     gc = GenderComputer()
     single_word_names, multiple_words_names = filter_surnames(names_set) #This function aims at removing the names that are composed by a single word but are present in the list of names composed by multiple words
-    male_words = {"sir", "duke", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "boy", "widower"}
-    female_words = {"lady", "duchess", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "girl", "widow"}
+    male_words = {"sir", "duke", "lord", "king", "prince",  "mister", "mr", "father", "uncle", "son", "brother", "boy", "widower", "master"}
+    female_words = {"lady", "duchess", "queen", "princess", "dame", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "girl", "widow", "mistress"}
     male_characters = []
     female_characters = []
     unknown_gender = []
