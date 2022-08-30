@@ -128,7 +128,7 @@ def gender_recognition(names_set):
                                 if full_name.index(single_name) == len(full_name) -1:
                                     unknown_gender.append(joined_name)
                                 else:
-                                    try:                                                #This try except methos is necessary since Genderize has a daily request limit
+                                    try:                                                #This try except block is necessary since Genderize has a daily request limit
                                         name_gender = Genderize().get([single_name])
                                         if name_gender[0]["gender"] == "male":
                                             male_characters = check_list_mwn(male_characters, full_name)
