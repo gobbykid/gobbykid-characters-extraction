@@ -28,7 +28,7 @@ def filter_surnames(names_set):
         if not remove:
             filtered_swn.append(s_name)  #If the name is not a surname, it is added to the list of names composed by a single word
         else:
-            continue
+            continue   
 
     return filtered_swn, multiple_words_names
 
@@ -157,6 +157,3 @@ def check_list_mwn(character_list, name_to_check):
             
     character_list.append(" ".join(name_to_check))
     return character_list
-
-
-
