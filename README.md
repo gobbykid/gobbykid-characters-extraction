@@ -1,5 +1,5 @@
 # The GOBBY KID project's text analysis functions
-This repository hosts the functions and the runnable code that we've created in order to perform our analyses on the project's corpus.
+This repository hosts the functions and the runnable code that we've created in order to extract the names and the number of the characters from the books of our corpus.
 
 ## Organization and functioning
 The ***assets*** directory:
