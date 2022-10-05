@@ -19,31 +19,31 @@ nlp.max_length = 2000000 #this is needed in order to avoid the error "ValueError
 clean_tokenizer = nltk.RegexpTokenizer(pattern = "[a-zA-Z'’]+") #we want to keep the apostrophe and the right single quotation mark
 
 #Useful lists in order to check the nature of the names
-with open('assets/non_characters_csv/nationalities.csv') as f:
+with open('../assets/non_characters_csv/nationalities.csv') as f:
     reader = csv.reader(f)
     nationalities = [row[0].lower() for row in reader]
 
-with open('assets/non_characters_csv/countries.csv') as f:
+with open('../assets/non_characters_csv/countries.csv') as f:
     reader = csv.reader(f)
     countries = [row[0].lower() for row in reader]
 
-with open('assets/non_characters_csv/UK_counties.csv') as f:
+with open('../assets/non_characters_csv/UK_counties.csv') as f:
     reader = csv.reader(f)
     uk_counties = [row[0].lower() for row in reader]
 
-with open('assets/non_characters_csv/UK_cities.csv') as f:
+with open('../assets/non_characters_csv/UK_cities.csv') as f:
     reader = csv.reader(f)
     uk_cities = [row[0].lower() for row in reader]
 
-with open('assets/non_characters_csv/religious_words.csv') as f:
+with open('../assets/non_characters_csv/religious_words.csv') as f:
     reader = csv.reader(f)
     religious_words = [row[0].lower() for row in reader]
 
-with open('assets/non_characters_csv/common_geographical_names.csv') as f:
+with open('../assets/non_characters_csv/common_geographical_names.csv') as f:
     reader = csv.reader(f)
     geo_names = [row[0].lower() for row in reader]
 
-with open('assets/non_characters_csv/exclamations.csv') as f:
+with open('../assets/non_characters_csv/exclamations.csv') as f:
     reader = csv.reader(f)
     exclamations = [row[0].lower() for row in reader]
 
