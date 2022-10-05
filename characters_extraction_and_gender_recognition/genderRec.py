@@ -162,6 +162,7 @@ def gender_recognition(names_set):
                                             else:
                                                 continue
                                         except:
+                                            print("___________________\n__________________\n__________________Genderize daily limit exceeded______________\n__________________\n__________________")
                                             continue
                                 
 
