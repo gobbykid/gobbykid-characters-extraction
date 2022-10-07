@@ -4,11 +4,11 @@ import re
 import csv
 
 
-with open('female_chars.csv') as f:
+with open('results/female_characters.csv') as f:
     reader = csv.reader(f)
     already_classified_female_characters = [row[0] for row in reader]
 
-with open('male_chars.csv') as f:
+with open('results/male_characters.csv') as f:
     reader = csv.reader(f)
     already_classified_male_characters = [row[0] for row in reader]
 
