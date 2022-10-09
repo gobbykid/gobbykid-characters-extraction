@@ -17,32 +17,6 @@ male_words = {"sir", "duke", "lord", "king", "prince",  "mister", "mr", "father"
 female_words = {"lady", "duchess", "queen", "princess", "dame", "missis", "miss", "mrs", "ms", "aunt", "mother", "sister", "daughter", "girl", "widow", "mistress"}
 
 
-def filter_surnames(names_set):
-    single_word_names = []
-    filtered_swn = []
-    multiple_words_names = []
-    for name in names_set:
-        if re.match("\w+(\s\w+)+", name):
-            multiple_words_names.append((name.split(" "))) #The names are splitted in order to be able to check each word composing the name and to be able to add the name to the right list
-        else:
-            single_word_names.append(name)
-    
-    for s_name in single_word_names:   
-        remove = False
-        for mwn in multiple_words_names:
-            if s_name[-1] == "s":             #Here the family names are removed: e.g. If we find "John Doe", "Lisa Doe", "Does" and "Doe", we remove "Does" and "Doe"
-                if mwn[-1] == s_name[:-1]:   #The family names are removed by checking the last word of the name and the last word of the surname
-                    remove = True
-            
-            if mwn[-1] == s_name:      #Here we just check if the last word of the name is the same of the surname
-                remove = True
-        if not remove:
-            filtered_swn.append(s_name)  #If the name is not a surname, it is added to the list of names composed by a single word
-        else:
-            continue   
-
-    return filtered_swn, multiple_words_names
-
 
 
 def gender_recognition(names_set):
@@ -52,7 +26,6 @@ def gender_recognition(names_set):
     male_characters = []
     female_characters = []
     unknown_gender = []
-
 
     for name in single_word_names:                      #_______________________________________NEW BLOCK FOR THE BRANCH
         if name in already_classified_male_characters: #If the name is already classified as a male character, it is added to the list of male characters
@@ -167,13 +140,40 @@ def gender_recognition(names_set):
     return male_characters, female_characters, unknown_gender
 
 
+def filter_surnames(names_set):
+    single_word_names = []
+    filtered_swn = []
+    multiple_words_names = []
+    for name in names_set:
+        if re.match("\w+(\s\w+)+", name):
+            multiple_words_names.append((name.split(" "))) #The names are splitted in order to be able to check each word composing the name and to be able to add the name to the right list
+        else:
+            single_word_names.append(name)
+    
+    for s_name in single_word_names:   
+        remove = False
+        for mwn in multiple_words_names:
+            if s_name[-1] == "s":             #Here the family names are removed: e.g. If we find "John Doe", "Lisa Doe", "Does" and "Doe", we remove "Does" and "Doe"
+                if mwn[-1] == s_name[:-1]:   #The family names are removed by checking the last word of the name and the last word of the surname
+                    remove = True
+            
+            if mwn[-1] == s_name:      #Here we just check if the last word of the name is the same of the surname
+                remove = True
+        if not remove:
+            filtered_swn.append(s_name)  #If the name is not a surname, it is added to the list of names composed by a single word
+        else:
+            continue   
+
+    return filtered_swn, multiple_words_names
+
+
 
 def check_list_mwn(character_list, name_to_check):
     dupl_list = character_list
 
     for name in dupl_list:
         spl_name = name.split(" ")
-        if (spl_name[1:] == name_to_check[1:] or spl_name[1:] == name_to_check) and spl_name[0] in (male_words or female_words):
+        if (spl_name[1:] == name_to_check[1:] or spl_name[1:] == name_to_check) and spl_name[0] in (male_words or female_words): 
             character_list.remove(name)
             
     character_list.append(" ".join(name_to_check))
