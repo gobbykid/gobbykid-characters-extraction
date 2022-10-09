@@ -45,9 +45,6 @@ def filter_surnames(names_set):
 
 
 
-
-
-
 def gender_recognition(names_set):
     gc = GenderComputer()
     single_word_names, multiple_words_names = filter_surnames(names_set) #This function aims at removing the names that are composed by a single word but are present in the list of names composed by multiple words
