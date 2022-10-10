@@ -13,8 +13,6 @@ nlp.max_length = 2000000 #this is needed in order to avoid the error "ValueError
 #nltk.download('words')
 
 
-
-
 #Our regex-based word tokenizer
 clean_tokenizer = nltk.RegexpTokenizer(pattern = "[a-zA-Z'’]+") #we want to keep the apostrophe and the right single quotation mark
 
