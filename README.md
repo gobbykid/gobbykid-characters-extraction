@@ -1,16 +1,14 @@
 # GOBBYKID project's charcaters extraction
-## Outcomes and further information
-**All the resusts obtained by using the material in this repository can be found in the [Characters Extraction and Analytics section of the GOBBYKID website](https://the-gobbykid-project.gitbook.io/gobbykid-project/analytics/characters-extraction-and-analytics).
-For further information and other analyses we suggest you read the following sections of this description or to explore the other pages of the website.**
+*All the resusts obtained by using the material in this repository can be found in the [Characters Extraction and Analytics section of the GOBBYKID Gitbook](https://the-gobbykid-project.gitbook.io/gobbykid-project/analytics/characters-extraction-and-analytics).
+For further information and other analyses we suggest you to read the following sections of this description or to explore the other pages of the [website](https://the-gobbykid-project.gitbook.io/gobbykid-project/introduction-to-gobbykid-project/an-introductory-overview-of-the-project).*
 
 ## Organization and functioning
+
 ### The ***assets*** directory:
-- **Corpus**: it contains two sub-directories (one for male authors and one for female authors) with the corpus we have analyzed.
-- **non_characters_csv**: contains some csv files to exclude names that are actually not characters' names.
-_______________________
+- **Corpus**: it contains two sub-directories (one for male authors and one for female authors) with the analyzed books.
+- **non_characters_csv**: it contains some csv files used to exclude names that are actually not characters' names.
 
 ### The ***characters_extraction_and_gender_recognition*** directory:
-
 The Python functions developed to extract the characters' names from the corpus of books are organized in two main files:
 - **charEx.py** consists in the functions used to process the text and to perform the Named Entity Recognition in order to store the characters' names into a set that is then processed by the functions contained into the genderRec file.
 - **genderRec.py** contains the functions used to process the set of names in order to classify each one with a label expressing the character's gender.
@@ -22,9 +20,9 @@ The Natural Language Processing tasks needed for the characters' extraction have
 - **get_charaters_nltk** and **get_characters_spacy** perform the Named Entity Recognition. Naturally, only the entities identified as “PERSON” have been included in the final set. Under this label also names of “animal characters” have been included. The Named Entity Recognition, however, is not a precise task, so into the set also names referred to entities that are not characters are included. We demand the explanation of the technical procedure used by the two libraries in order to extract the entities' names to their documentations linked above.
 - **get_proper_nouns** aims at providing information related to the probability of a word being a character name or surname. In particular, each word of the text is stored into a dictionary with the count of times in which it occurred with the first letter capitalized, in lowercase, and not at the beginning of a sentence. The keys are stored in the dictionary not always as single words, but, in cases in which a full name is present into the text (e.g., John Doe) the full occurrence is considered instead. In this way, the names should match the ones extracted by the other functions. The segmentation of the text in sentences is done by means of thesyntok_list_of_sentences function, in which the [Syntok Segmenter](https://github.com/fnl/syntok) is used.
 
+
 #### **genderRec.py**
 Also for the gender recognition two different libraries has been used: [genderComputer](https://github.com/tue-mdse/genderComputer) and [Genderize](https://github.com/SteelPangolin/genderize).
-
 Genderize is capable of determining the gender of some names that genderComputer is not able to classify. However, it works only through requests made to an API and has a daily limit of 1000 requests. Two solutions have been found to overcome this problem. The first consists in using another library (genderComputer) to recognize names' gender, and using Genderize only for the cases in which the first library cannot assign a label with certainty. With few books, this solution is valid. However, with more than 200 texts, the daily limit of Genderize is still exceedable. The second consists in extracting the names from the corpus more than once and, at each iteration of the code execution, to store the already classified names into two different CSV file (one for male and on for female characters). These files are used in the iterations of the execution in order to check whether the names extracted from the book have been already classified as female or male without using the methods provided by the libraries. At each iteration, the files are updated. Moreover, we decided to execute the extraction on the split corpus (male author's corpus and female author's corpus) by two different computers in order to accelerate the process (that is why there are more than one get_characters files in the repository). Naturally, each iteration occurred at different times (one per day for each sub-corpus) due to the fact that the request limitation resets on a daily basis.
 ##### Functions
 - **gender_recognition** tries to identify the gender of each name contained in the set it takes in input (in this case, the one extracted by the functions of the previous file). In the set, names can be composed by a single or by multiple words. Nevertheless, while Genderize is able to work with full names, genderComputer works only with single-words names.
