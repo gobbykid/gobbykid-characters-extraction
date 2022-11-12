@@ -1,4 +1,7 @@
 # GOBBYKID project's charcaters extraction
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gobbykid/gobbykid-characters-extraction.git/HEAD?urlpath=https%3A%2F%2Fgithub.com%2Fgobbykid%2Fgobbykid-characters-extraction%2Fblob%2Fmain%2Fcharacters_extraction_and_gender_recognition%2Fanalytics.ipynb)
+
 *All the resusts obtained by using the material in this repository can be found in the [Characters Extraction and Analytics section of the GOBBYKID Gitbook](https://the-gobbykid-project.gitbook.io/gobbykid-project/analytics/characters-extraction-and-analytics).
 For further information and other analyses we suggest you to read the following sections of this description or to explore the other pages of the [website](https://the-gobbykid-project.gitbook.io/gobbykid-project/introduction-to-gobbykid-project/an-introductory-overview-of-the-project).*
 
