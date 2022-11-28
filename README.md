@@ -1,6 +1,6 @@
 # GOBBYKID project's charcaters extraction
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gobbykid/gobbykid-characters-extraction.git/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gobbykid/gobbykid-characters-extraction.git/HEAD) [![GITBook](https://img.shields.io/badge/GIT-Book-green)](https://the-gobbykid-project.gitbook.io/gobbykid-project/analytics/characters-extraction-and-analytics)
 
 
 *All the resusts obtained by using the material in this repository can be found in the [Characters Extraction and Analytics section of the GOBBYKID Gitbook](https://the-gobbykid-project.gitbook.io/gobbykid-project/analytics/characters-extraction-and-analytics).
